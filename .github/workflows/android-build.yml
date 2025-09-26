@@ -1,41 +1,31 @@
-name: Flutter Build APK (v2)
+name: Build Flutter APK
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Install Flutter SDK (clone stable)
-        run: |
-          git clone https://github.com/flutter/flutter.git -b stable --depth 1
-          echo "$PWD/flutter/bin" >> $GITHUB_PATH
-          flutter --version
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3' # آپ کے Flutter کی مطلوبہ ورژن
 
-      - name: Ensure Flutter project structure (create if missing)
-        run: |
-          if [ ! -f pubspec.yaml ] || [ ! -d android ] || [ ! -d ios ]; then
-            echo "Running flutter create to ensure correct project structure..."
-            flutter create -t app .
-          else
-            echo "Flutter project structure present."
-          fi
-
-      - name: Flutter pub get
+      - name: Install dependencies
         run: flutter pub get
 
-      - name: Build Release APK
-        run: flutter build apk --release --no-shrink
+      - name: Build APK
+        run: flutter build apk --release
 
-      - name: Upload Release APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release.apk
+          name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
