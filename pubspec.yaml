@@ -1,0 +1,22 @@
+name: al_alam_free_islamic_app_v2
+description: Al-Alam Free Islamic App v2 - starter
+publish_to: 'none'
+version: 2.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/quran.json
