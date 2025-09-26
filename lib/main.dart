@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'ask_mufti_screen.dart';
+import 'archive_screen.dart';
+import 'sermons_screen.dart';
+import 'contact_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const OnlineMuftiApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class OnlineMuftiApp extends StatelessWidget {
+  const OnlineMuftiApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'العالم فری اسلامک ایپ v2',
-      debugShowCheckedModeBanner: false,
+      title: 'Online Mufti',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.green,
+        fontFamily: 'NotoNastaliqUrdu',
       ),
       home: const HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -27,20 +32,35 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('العالم فری اسلامک ایپ v2'),
+        title: const Text('آن لائن مفتی'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text('خوش آمدید — Alam Free Islamic App v2', textAlign: TextAlign.center, style: TextStyle(fontSize:20)),
-              SizedBox(height:16),
-              Text('یہ ایک اسٹارٹر پراجیکٹ ہے — قرآنی مواد اور فیچرز آپ بعد میں شامل کریں۔', textAlign: TextAlign.center),
-            ],
+      body: ListView(
+        children: [
+          ListTile(
+            title: const Text('سوال پوچھیں'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const AskMuftiScreen()));
+            },
           ),
-        ),
+          ListTile(
+            title: const Text('فتاویٰ آرکائیو'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ArchiveScreen()));
+            },
+          ),
+          ListTile(
+            title: const Text('خطبات و دروس'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const SermonsScreen()));
+            },
+          ),
+          ListTile(
+            title: const Text('رابطہ کریں'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactScreen()));
+            },
+          ),
+        ],
       ),
     );
   }
