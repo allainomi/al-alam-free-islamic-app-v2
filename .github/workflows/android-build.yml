@@ -1,31 +1,31 @@
-name: Build Flutter APK
+buildscript {
+    ext.kotlin_version = '1.7.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
 
-on:
-  push:
-    branches:
-      - main
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24.3' # آپ کے Flutter کی مطلوبہ ورژن
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build APK
-        run: flutter build apk --release
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
